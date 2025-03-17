@@ -1,17 +1,18 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
+import { Book } from './modules/database/entities/book.entity'
 
-@Controller('')
+@Controller('books')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('greet/:name')
-  public async greetMe(@Param('name') name: string): Promise<string> {
-    return `Hello ${name}`;
+  @Get(':id')
+  public async getBook(@Param('id') id: string): Promise<Book> {
+    return this.appService.getBookById(id);
   }
 
-  @Get('hello')
-  public async getHello(): Promise<string> {
-    return this.appService.getHello();
+  @Get()
+  public async getAllBooks(): Promise<Book[]> {
+    return this.appService.getBooks();
   }
 }

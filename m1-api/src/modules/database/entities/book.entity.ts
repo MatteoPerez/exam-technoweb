@@ -1,5 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column,ManyToOne, IntegerType,JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column,ManyToOne, IntegerType,JoinColumn, OneToMany } from 'typeorm';
 import { Author } from './author.entity';
+import { Rating } from './rating.entity';
+
 
 @Entity('books') // Nom de la table dans la base de données
 export class Book {
@@ -15,4 +17,7 @@ export class Book {
 
   @Column()
   year_published: number;
+
+  @OneToMany(() => Rating, (rating) => rating.book)
+  ratings: Rating[];
 }

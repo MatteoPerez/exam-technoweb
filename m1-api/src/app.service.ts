@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Book } from './modules/database/entities/book.entity';
@@ -91,5 +91,29 @@ export class AppService {
       console.error('Error adding author and books:', error);
       throw new Error('Unable to add author and books');
     }
+  }
+
+
+  // Methode de suppression d'auteurs et de tout les livres qui lui sont associés
+  async deleteAuthor(id: string): Promise<{ message: string }> {
+    const author = await this.authorRepository.findOne({
+      where: { id },
+      relations: ['books'],
+    });
+  
+    if (!author) {
+      throw new NotFoundException('Author not found');
+    }
+  
+    // Supprimer tous les livres liés à cet auteur
+    await this.bookRepository.remove(author.books);
+  
+    // Supprimer l'auteur
+    await this.authorRepository.remove(author);
+  
+    throw new HttpException(
+      { message: `Author ${id} and all associated books have been deleted` },
+      HttpStatus.OK
+    );
   }
 }

@@ -12,7 +12,7 @@ export class Author {
   @Column()
   last_name: string;
 
-  @OneToMany(() => Book, (book) => book.author)
+  @OneToMany(() => Book, (book) => book.author , { cascade: true, onDelete: 'CASCADE' })
   books: Book[];
 
   @Column({nullable: true})

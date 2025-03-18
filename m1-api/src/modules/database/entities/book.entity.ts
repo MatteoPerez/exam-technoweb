@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column,ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column,ManyToOne, IntegerType,JoinColumn } from 'typeorm';
 import { Author } from './author.entity';
 
 @Entity('books') // Nom de la table dans la base de données
@@ -9,7 +9,8 @@ export class Book {
   @Column()
   title: string;
 
-  @ManyToOne(() => Author, (author) => author.books, { eager: true }) // ✅ Relation avec l'entité Author
+  @ManyToOne(() => Author, (author) => author.books) // Relation Many-to-One avec Author
+  @JoinColumn({ name: 'id_author' }) // Indiquer la colonne de la clé étrangère
   author: Author;
 
   @Column()

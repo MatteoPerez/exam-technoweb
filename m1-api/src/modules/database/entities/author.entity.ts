@@ -12,6 +12,12 @@ export class Author {
   @Column()
   last_name: string;
 
-  @OneToMany(() => Book, (book) => book.author) // ✅ Relation inverse
+  @OneToMany(() => Book, (book) => book.author)
   books: Book[];
+
+  @Column({nullable: true})
+  photo : string;
+
+  @Column({nullable: true})
+  biography : string;
 }

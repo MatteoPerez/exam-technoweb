@@ -103,15 +103,23 @@ const BookById = () => {
 
   return (
     <div className='pageStyle'>
-        <h1 className='title'>{book.title}</h1>
-        <p>Author: {book.author.first_name} {book.author.last_name}</p>
-        <p>Year Published: {book.year_published}</p>
-        <p>Rating: {book.rating}</p>
-        <p>{book.description}</p>
-
-
-      <Button sx={{ backgroundColor: "#61dafb", color: "black", "&:hover": { backgroundColor: "darkblue" } }} onClick={() => setDrawerOpen(true)} variant="contained"> Ratings </Button>
-
+        <div className='info-book'>
+            <img className="cover" src="https://m.media-amazon.com/images/I/81q77Q39nEL._AC_UF1000,1000_QL80_.jpg"/>
+            <div className='detail-book'>
+                <h1 className='title'>{book.title}</h1>
+                <p>Author: {book.author.first_name} {book.author.last_name}</p>
+                <p>Year Published: {book.year_published}</p>
+                <p>
+                Rating:{" "}
+                {ratings.length > 0
+                    ? (ratings.reduce((sum: number, rating: any) => sum + rating.stars, 0) / ratings.length).toFixed(1)
+                    : "No ratings yet"}
+                </p>
+                <p>{book.description}</p>
+                <Button sx={{ marginTop: "20px" , backgroundColor: "#61dafb", color: "black", "&:hover": { backgroundColor: "darkblue" } }} onClick={() => setDrawerOpen(true)} variant="contained"> Ratings </Button>
+                <Button className='button'> Edit </Button>
+            </div>
+        </div>
 
       <Drawer
         className='drawer'

@@ -1,38 +1,76 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80px; /* Largeur initiale de la barre verticale */
+  height: 100vh; /* Prendre toute la hauteur de l'écran */
+  background-color: #282c34; /* Couleur de la barre */
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  padding-left: 20px;
+  padding-top: 50px; /* Espacement du haut de la page */
+  transition: width 0.3s ease; /* Transition pour élargir la barre latérale */
+}
+
+.sidebar.expanded {
+  width: 140px; /* Largeur lorsque la barre est élargie */
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.nav-links a {
+  margin: 20px 0;
+  width: 50px; /* Largeur des boutons */
+  height: 50px; /* Hauteur des boutons */
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-color: #61dafb; /* Couleur de fond des boutons */
+  border-radius: 50%; /* Pour rendre les boutons ronds */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  position: relative;
 }
 
-.App-link {
-  color: #61dafb;
+.nav-links a:hover {
+  background-color: #6f5996; /* Changer la couleur de fond au survol */
+  transform: scale(1.1); /* Agrandir légèrement au survol */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Texte à côté de l'icône */
+.nav-links a .page-text {
+  display: none; /* Le texte est caché par défaut */
+  position: absolute;
+  left: 60px; /* Placer le texte à droite de l'icône */
+  font-size: 14px;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease; /* Transition pour l'opacité */
+}
+
+.nav-links a:hover .page-text {
+  display: block; /* Afficher le texte au survol */
+  opacity: 1; /* Le texte devient visible */
+}
+
+/* Taille de l'icône */
+.nav-links img {
+  width: 30px; /* Taille de l'icône */
+  height: 30px; /* Taille de l'icône */
+  object-fit: contain; /* Pour garder les proportions de l'image */
+}
+
+/* Animation pour le texte et l'élargissement de la barre */
+.nav-links a:hover + .sidebar {
+  width: 200px; /* Lors du survol d'un lien, la barre s'élargit */
+}
+
+.main-content {
+  margin-left: 100px; /* Décalage de la largeur de la barre */
+  padding: 20px;
 }

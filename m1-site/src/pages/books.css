@@ -2,6 +2,12 @@
   font-family: 'Trebuchet MS', sans-serif;
 }
 
+.title{
+  text-align: left;
+  padding-left: 80px;
+  padding-top: 50px;
+  color: rgb(82, 78, 85);
+}
 
 .books-container {
   font-family: 'Trebuchet MS', sans-serif;

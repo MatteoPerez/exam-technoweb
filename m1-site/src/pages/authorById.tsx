@@ -1,19 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
 const AuthorById = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [author, setAuthor] = useState<any | null>(null);
 
   useEffect(() => {
     if (id) {
-      // Fetch author details with books
       fetch(`http://localhost:3001/authors/${id}`) // Appeler l'API pour obtenir l'auteur et ses livres
         .then((response) => response.json())
         .then((data) => setAuthor(data))
         .catch((error) => console.error('Error fetching author details:', error));
     }
   }, [id]);
+
+  const handleDeleteAuthor = () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this author? This will also delete all their books.");
+    if (confirmDelete) {
+      fetch(`http://localhost:3001/authors/${id}`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to delete the author");
+          }
+          alert("Author deleted successfully!");
+          navigate("/authors");
+        })
+        .catch((error) => console.error("Error deleting author:", error));
+    }
+  };
 
   if (!author) {
     return <div>Loading...</div>;
@@ -36,6 +53,21 @@ const AuthorById = () => {
       ) : (
         <p>No books found for this author.</p>
       )}
+      {/* Bouton de suppression */}
+      <button
+        onClick={handleDeleteAuthor}
+        style={{
+          marginTop: '20px',
+          padding: '10px 20px',
+          backgroundColor: '#f44336',
+          color: 'white',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+        }}
+      >
+        Delete Author
+      </button>
     </div>
   );
 };

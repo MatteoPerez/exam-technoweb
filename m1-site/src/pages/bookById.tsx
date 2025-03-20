@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Drawer, Button, List, ListItem, ListItemText, TextField, Rating } from '@mui/material';
 import './bookById.css';
 
 const BookById = () => {
   const { id } = useParams(); // Récupérer l'ID du livre depuis l'URL
+  const navigate = useNavigate(); // Pour rediriger après suppression
   const [ratings, setRatings] = useState<any[]>([]); // État pour stocker les évaluations
   const [newRating, setNewRating] = useState<number | null>(0);
   const [newComment, setNewComment] = useState<string>('');
@@ -73,6 +74,24 @@ const BookById = () => {
       .catch((error) => console.error("Error submitting rating:", error));
   };
 
+  // Fonction pour supprimer le livre
+  const handleDeleteBook = () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this book?");
+    if (confirmDelete) {
+      fetch(`http://localhost:3001/books/${id}`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to delete the book");
+          }
+          alert("Book deleted successfully!");
+          navigate("/books"); // Redirige vers la liste des livres après suppression
+        })
+        .catch((error) => console.error("Error deleting book:", error));
+    }
+  };
+
   useEffect(() => {
     fetch(`http://localhost:3001/books/${id}`)
       .then((response) => response.json())
@@ -118,6 +137,18 @@ const BookById = () => {
                 <p>{book.description}</p>
                 <Button sx={{ marginTop: "20px" , backgroundColor: "#61dafb", color: "black", "&:hover": { backgroundColor: "darkblue" } }} onClick={() => setDrawerOpen(true)} variant="contained"> Ratings </Button>
                 <Button className='button'> Edit </Button>
+                <Button
+                  sx={{
+                    marginTop: "20px",
+                    backgroundColor: "#f44336",
+                    color: "white",
+                    "&:hover": { backgroundColor: "darkred" },
+                  }}
+                  onClick={handleDeleteBook}
+                  variant="contained"
+                >
+                  Delete
+                </Button>
             </div>
         </div>
 

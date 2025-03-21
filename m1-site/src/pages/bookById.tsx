@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Drawer, Button, List, ListItem, ListItemText, TextField, Rating } from '@mui/material';
 import './bookById.css';
 
 const BookById = () => {
-  const { id } = useParams(); // Récupérer l'ID du livre depuis l'URL
-  const navigate = useNavigate(); // Pour rediriger après suppression
-  const [ratings, setRatings] = useState<any[]>([]); // État pour stocker les évaluations
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [ratings, setRatings] = useState<any[]>([]);
   const [newRating, setNewRating] = useState<number | null>(0);
   const [newComment, setNewComment] = useState<string>('');
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
@@ -15,7 +15,6 @@ const BookById = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
-  // Récupérer les évaluations du livre depuis l'API
   useEffect(() => {
     if (id) {
       fetch(`http://localhost:3001/books/${id}/ratings`)
@@ -25,13 +24,11 @@ const BookById = () => {
     }
   }, [id]);
 
-  // Fonction pour trier les évaluations par date
   const sortRatings = (ascending: boolean) => {
     const sortedRatings = [...ratings].sort((a, b) => (ascending ? a.date - b.date : b.date - a.date));
     setRatings(sortedRatings);
   };
 
-  // Ajouter une nouvelle évaluation
   const handleAddRating = () => {
     if (!newRating) {
       alert("Please select a rating!");
@@ -44,7 +41,7 @@ const BookById = () => {
       stars: newRating,
       comment: newComment,
       id_book: id,
-      date: new Date().toISOString(), // Format standard pour la date
+      date: new Date().toISOString(),
     };
 
     console.log("Sending JSON:", JSON.stringify(newRatingObj, null, 2));
@@ -68,13 +65,11 @@ const BookById = () => {
         setNewRating(null);
         setNewComment("");
         
-        // Mettre à jour la liste des ratings en récupérant les nouvelles données
         fetchRatings();
       })
       .catch((error) => console.error("Error submitting rating:", error));
   };
 
-  // Fonction pour supprimer le livre
   const handleDeleteBook = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this book?");
     if (confirmDelete) {
@@ -86,7 +81,7 @@ const BookById = () => {
             throw new Error("Failed to delete the book");
           }
           alert("Book deleted successfully!");
-          navigate("/books"); // Redirige vers la liste des livres après suppression
+          navigate("/books");
         })
         .catch((error) => console.error("Error deleting book:", error));
     }
@@ -126,7 +121,13 @@ const BookById = () => {
             <img className="cover" src="https://m.media-amazon.com/images/I/81q77Q39nEL._AC_UF1000,1000_QL80_.jpg"/>
             <div className='detail-book'>
                 <h1 className='title'>{book.title}</h1>
-                <p>Author: {book.author.first_name} {book.author.last_name}</p>
+                {/* Link to the author's page */}
+                <p>
+                  Author:{' '}
+                  <Link to={`/authors/${book.author.id}`} style={{ textDecoration: 'none', color: '#61dafb' }}>
+                    {book.author.first_name} {book.author.last_name}
+                  </Link>
+                </p>
                 <p>Year Published: {book.year_published}</p>
                 <p>
                 Rating:{" "}

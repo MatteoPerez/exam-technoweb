@@ -137,7 +137,12 @@ const BookById = () => {
                 </p>
                 <p>{book.description}</p>
                 <Button sx={{ marginTop: "20px" , backgroundColor: "#61dafb", color: "black", "&:hover": { backgroundColor: "darkblue" } }} onClick={() => setDrawerOpen(true)} variant="contained"> Ratings </Button>
-                <Button className='button'> Edit </Button>
+                <Button
+                  className='button'
+                  onClick={() => navigate(`/edit/${id}`)} // Navigate to the edit page
+                >
+                  Edit
+                </Button>
                 <Button
                   sx={{
                     marginTop: "20px",

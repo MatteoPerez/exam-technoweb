@@ -5,6 +5,7 @@ import Books from './pages/books';
 import Authors from './pages/authors';
 import BookById from './pages/bookById';
 import AuthorById from './pages/authorById';
+import EditPage from './pages/edit';
 import './App.css'
 
 // Importer les icônes
@@ -55,6 +56,7 @@ export default function App() {
           <Route path="/authors" element={<Authors />} />
           <Route path="/books/:id" element={<BookById />} />
           <Route path="/authors/:id" element={<AuthorById />} />
+          <Route path="/edit/:id" element={<EditPage />} />
         </Routes>
       </div>
     </Router>

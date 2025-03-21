@@ -3,6 +3,7 @@ import { AppService } from './app.service';
 import { Book } from './modules/database/entities/book.entity'
 import { Author } from './modules/database/entities/author.entity'
 import { CreateBookDto } from './modules/database/dto/create-book.dto';
+import { CreateAuthorDto } from './modules/database/dto/create-author.dto';
 import { Rating } from './modules/database/entities/rating.entity';
 import { CreateRatingDto } from './modules/database/dto/create-rating.dto';
 
@@ -89,11 +90,16 @@ export class AuthorController {
     return this.appService.getAuthorById(id);
   }
 
+  // @Post()
+  // async addAuthorWithBooks(
+  //   @Body() body: { authorData: any; booksData: any[] },
+  // ) {
+  //   return this.appService.addAuthorWithBooks(body.authorData, body.booksData);
+  // }
+
   @Post()
-  async addAuthorWithBooks(
-    @Body() body: { authorData: any; booksData: any[] },
-  ) {
-    return this.appService.addAuthorWithBooks(body.authorData, body.booksData);
+  public async addAuthor(@Body() createAuthorDto: CreateAuthorDto) {
+    return this.appService.addAuthor(createAuthorDto);
   }
 
   @Delete(':id')

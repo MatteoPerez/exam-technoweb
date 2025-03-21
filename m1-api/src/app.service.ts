@@ -99,6 +99,21 @@ export class AppService {
     }
   }
 
+  async addAuthor(authorData: { first_name: string; last_name: string; biography?: string; photo?: string }): Promise<Author> {
+    try {
+      const author = this.authorRepository.create({
+        first_name: authorData.first_name,
+        last_name: authorData.last_name,
+        biography: authorData.biography || null,
+        photo: authorData.photo || null,
+      });
+
+      return await this.authorRepository.save(author);
+    } catch (error) {
+      console.error('Error adding author my bro:', error);
+      throw new Error('Unable to add author');
+    }
+  }
 
   // Methode de suppression d'auteurs et de tout les livres qui lui sont associés
   async deleteAuthor(id: string): Promise<{ message: string }> {

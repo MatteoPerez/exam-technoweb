@@ -8,7 +8,7 @@ const AuthorById = () => {
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:3001/authors/${id}`) // Appeler l'API pour obtenir l'auteur et ses livres
+      fetch(`http://localhost:3001/authors/${id}`)
         .then((response) => response.json())
         .then((data) => setAuthor(data))
         .catch((error) => console.error('Error fetching author details:', error));
@@ -16,7 +16,9 @@ const AuthorById = () => {
   }, [id]);
 
   const handleDeleteAuthor = () => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this author? This will also delete all their books.");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this author? This will also delete all their books."
+    );
     if (confirmDelete) {
       fetch(`http://localhost:3001/authors/${id}`, {
         method: "DELETE",
@@ -38,22 +40,25 @@ const AuthorById = () => {
 
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>{author.first_name} {author.last_name}</h1>
+      <h1>
+        {author.first_name} {author.last_name}
+      </h1>
       <p>Biography: {author.biography}</p>
-      {/* Liste des livres de l'auteur */}
+      <p>Books Written: {author.books ? author.books.length : 0}</p> {/* Display the number of books */}
+      {/* List of books by the author */}
       <h2>Books:</h2>
       {author.books && author.books.length > 0 ? (
         <ul>
           {author.books.map((book: any) => (
             <li key={book.id}>
-              <Link to={`/books/${book.id}`}>{book.title}</Link> {/* Lien vers la page du livre */}
+              <Link to={`/books/${book.id}`}>{book.title}</Link> {/* Link to the book page */}
             </li>
           ))}
         </ul>
       ) : (
         <p>No books found for this author.</p>
       )}
-      {/* Bouton de suppression */}
+      {/* Delete button */}
       <button
         onClick={handleDeleteAuthor}
         style={{

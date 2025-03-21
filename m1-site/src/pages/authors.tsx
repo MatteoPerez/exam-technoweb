@@ -189,6 +189,7 @@ export default function Authors() {
                 </h3>
                 <div className="author-details">
                   <p>Biography: {author.biography}</p>
+                  <p>Books Written: {author.books ? author.books.length : 0}</p> {/* Display the number of books */}
                 </div>
               </div>
             </div>

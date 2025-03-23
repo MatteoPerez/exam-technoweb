@@ -1,31 +1,53 @@
-.cover{
-    background-color: aquamarine;
-    width: 600px;
-    height: 750px;
-    object-fit: cover;
+.cover {
+  background-color: rgb(151, 104, 166);
+  color: white;
+  width: 400px;
+  height: 80vh; /* Hauteur à 80% de la fenêtre */
+  
+  object-fit: cover; /* Ajuste l'image sans la déformer en la rognant */
+  
+  display: block; /* Supprime l'espace blanc en bas */
+  text-align: center;
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center; /* Centre verticalement */
+  border-radius: 20px;
 }
 
 .infoBook{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 20px;
-    padding-top: 60px;
+    padding-top: 50px;
     display: flex; /* Active Flexbox */
-    gap: 100px; /* Espacement entre les éléments */
+    gap: 50px; /* Espacement entre les éléments */
     align-items: top; /* Alignement vertical au centre */
+}
+
+.authorInfo{
+  display: flex;
+  flex-direction: column;
+  padding-top: 0px;
 }
 
 .title{
     font-size: 30px;
     text-align: left;
-    padding-top: 50px;
+    padding-top: 0px;
+    color: rgb(126, 123, 129);
+  }
+
+  .bookTitle{
+    font-size: 30px;
+    text-align: left;
+    padding-top: 0px;
     color: rgb(126, 123, 129);
   }
 
   .pageStyle{
+    align-items: left;
     padding-top: 10px;
     padding-left: 80px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-
   }
 
   .bookLink{
@@ -33,12 +55,25 @@
   }
 
   .booksContainer {
-    margin-top: 30px;
+    margin-top: 10px;
     font-family: 'Trebuchet MS', sans-serif;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    justify-content: left;
+    gap: 50px;
+    justify-content: flex-start; /* Aligne depuis la gauche */
+    align-items: flex-start; /* Aligne depuis le haut */
     padding: 20px;
   }
-  
+
+  .button{
+    width: 30vh;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #bb73cf;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 16px;
+}

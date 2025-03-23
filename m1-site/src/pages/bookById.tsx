@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Drawer, Button, List, ListItem, ListItemText, TextField, Rating } from '@mui/material';
-import './bookById.css';
+import { useParams, useNavigate, Link , useLocation } from 'react-router-dom';
+import {Link as MuiLink} from '@mui/material';
+import { Drawer, Button, List, ListItem, ListItemText, TextField, Rating , Breadcrumbs , Typography} from '@mui/material';
+import Styles from './bookById.module.css'
 
 const BookById = () => {
   const { id } = useParams();
@@ -14,6 +15,8 @@ const BookById = () => {
   const [loading, setLoading] = useState(true);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const location = useLocation();
+  const state = location.state as { fromAuthor?: boolean; authorName?: string };
 
   useEffect(() => {
     if (id) {
@@ -111,22 +114,66 @@ const BookById = () => {
   const fetchRatings = () => {
     fetch(`http://localhost:3001/books/${id}/ratings`)
       .then((response) => response.json())
-      .then((data) => setRatings(data))
+      .then((data) => {setRatings(data); updateBookRating(data);})
       .catch((error) => console.error("Error fetching ratings:", error));
   };
 
+  const updateBookRating = (ratings: any[]) => {
+    if (ratings.length === 0) {
+      return; // Si aucune évaluation, ne pas mettre à jour la note
+    }
+
+    const totalStars = ratings.reduce((acc, rating) => acc + rating.stars, 0);
+    const averageRating = totalStars / ratings.length;
+
+    // Mettre à jour la note moyenne du livre
+    setBook((prevBook: any) => ({
+      ...prevBook,
+      rating: averageRating.toFixed(1), // Afficher avec une décimale
+    }));
+  };
+
   return (
-    <div className='pageStyle'>
-        <div className='info-book'>
-            <img className="cover" src="https://m.media-amazon.com/images/I/81q77Q39nEL._AC_UF1000,1000_QL80_.jpg"/>
-            <div className='detail-book'>
-                <h1 className='title'>{book.title}</h1>
+    <div className={Styles.pageStyle}>
+
+      <Breadcrumbs className={Styles.breadscrumb} aria-label="breadcrumb" sx={{ display: 'flex', alignItems: 'center' }}>
+        {state?.fromAuthor ? (
+          <>
+            <div className={Styles.breadcrumb} style={{ display: 'flex', alignItems: 'center' , color:'rgb(119, 119, 119)'}}>
+              <MuiLink href="/" color="inherit">Home</MuiLink>
+              <Typography sx={{ margin: '0 8px' , color:'rgb(119, 119, 119)' }}> / </Typography> {/* Séparateur avec marges */}
+              <MuiLink href="/authors" color='rgb(119, 119, 119)'>Authors</MuiLink>
+              <Typography sx={{ margin: '0 8px' , color:'rgb(119, 119, 119)' }}> / </Typography> {/* Séparateur avec marges */}
+              <MuiLink component={Link} color='rgb(119, 119, 119)' to={`/authors/${book.author.id}`}>
+                {state.authorName} {book.author.last_name}
+              </MuiLink>
+              <Typography color="inherit" sx={{ margin: '0 8px' , color:'rgb(119, 119, 119)' }}> / </Typography>
+              <MuiLink component={Link} to={`/books/${id}`} color='rgb(119, 119, 119)'>{book.title}</MuiLink>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={Styles.breadcrumb} style={{ display: 'flex', alignItems: 'center' }}>
+              <MuiLink href="/" color="inherit">Home</MuiLink>
+              <Typography sx={{ margin: '0 8px' , color:'rgb(119, 119, 119)' }}> / </Typography>
+              <MuiLink component={Link} to="/books" color="inherit">Books</MuiLink>
+              <Typography color="inherit" sx={{ margin: '0 8px' }}> / </Typography>
+              <MuiLink component={Link} to={`/books/${id}`} color="inherit">{book.title}</MuiLink>
+            </div>
+          </>
+        )}
+      </Breadcrumbs>
+
+          <div className={Styles.infoBook}>
+            <div className={Styles.cover}>No cover available</div>
+            <div className={Styles.detailBook}>
+                <h1 className={Styles.title}>{book.title}</h1>
                 {/* Link to the author's page */}
                 <p>
                   Author:{' '}
-                  <Link to={`/authors/${book.author.id}`} style={{ textDecoration: 'none', color: '#61dafb' }}>
+                  <MuiLink href={`/authors/${book.author.id}`} style={{ textDecoration: 'none', color: '#61dafb' }}>
                     {book.author.first_name} {book.author.last_name}
-                  </Link>
+                  </MuiLink>
                 </p>
                 <p>Year Published: {book.year_published}</p>
                 <p>
@@ -136,8 +183,15 @@ const BookById = () => {
                     : "No ratings yet"}
                 </p>
                 <p>{book.description}</p>
+                <div className={Styles.button}>
                 <Button sx={{ marginTop: "20px" , backgroundColor: "#61dafb", color: "black", "&:hover": { backgroundColor: "darkblue" } }} onClick={() => setDrawerOpen(true)} variant="contained"> Ratings </Button>
                 <Button
+                  sx={{
+                    marginTop: "20px",
+                    backgroundColor: "#bb73cf",
+                    color: "white",
+                    "&:hover": { backgroundColor: "#9244a7" },
+                  }}
                   className='button'
                   onClick={() => navigate(`/edit/${id}`)} // Navigate to the edit page
                 >
@@ -155,7 +209,7 @@ const BookById = () => {
                 >
                   Delete
                 </Button>
-            </div>
+                </div>
         </div>
 
       <Drawer
@@ -243,6 +297,7 @@ const BookById = () => {
           </List>
         </div>
       </Drawer>
+    </div>
     </div>
   );
 };

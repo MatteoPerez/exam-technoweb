@@ -186,7 +186,7 @@ export default function Authors() {
                     {author.photo ? (
                       <img className={styles.authorPhoto} src={author.photo} alt={`${author.first_name} ${author.last_name}`} />
                     ) : (
-                      <p>No photo available</p>
+                      <p></p>
                     )}
                 </div>
               </div>

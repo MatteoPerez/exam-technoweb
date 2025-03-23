@@ -1,0 +1,70 @@
+.title{
+    font-size: 30px;
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-bottom: 50px;
+    color: rgb(146, 146, 146);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+  
+  .drawer{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+
+.see-rating-button{
+    background-color: rgb(131, 233, 233);
+    position: absolute;
+}
+
+.pageStyle{
+    align-items: left;
+    padding-top: 0px;
+    padding-left: 50px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+
+.cover{
+    background-color: rgb(151, 104, 166);
+  color: white;
+  width: 400px;
+  height: 80vh; /* Hauteur à 80% de la fenêtre */
+  
+  object-fit: cover; /* Ajuste l'image sans la déformer en la rognant */
+  
+  display: block; /* Supprime l'espace blanc en bas */
+  text-align: center;
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center; /* Centre verticalement */
+  border-radius: 20px;
+}
+
+.infoBook{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 20px;
+    padding-left: 30px;
+    padding-top: 30px;
+    display: flex; /* Active Flexbox */
+    gap: 50px; /* Espacement entre les éléments */
+    align-items: top; /* Alignement vertical au centre */
+}
+
+.detailBook{
+    align-items: top;
+    font-size: 20px;
+}
+
+.button{
+    margin-top: 10px;
+    font-family: 'Trebuchet MS', sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    justify-content: flex-start; /* Aligne depuis la gauche */
+    align-items: flex-start; /* Aligne depuis le haut */
+    padding: 20px;
+}
+
+.breadscrumb{
+    padding-left: 30px;
+}

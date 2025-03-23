@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate , Link } from 'react-router-dom';
 import BookCard from './components/bookCard'; // Assurez-vous que le chemin est correct
 import { Book, Author } from './components/types';
+import { Link as MuiLink , Breadcrumbs } from '@mui/material';
+import Styles from './authorById.module.css'
 
 const AuthorById = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [author, setAuthor] = useState<Author | null>(null);  // Typage d'Author avec un état initial null
+  const [averageRating, setAverageRating] = useState<number | null>(null);
 
   useEffect(() => {
     if (id) {
       fetch(`http://localhost:3001/authors/${id}`)
         .then((response) => response.json())
-        .then((data) => setAuthor(data))
+        .then((data) => {console.log("Fetched author data:", data); setAuthor(data);
+          // Calculer la moyenne des notes des livres
+          if (data.books && data.books.length > 0) {
+            const totalRating = data.books.reduce((acc: number, book: Book) => acc + book.rating, 0);
+            console.log(data.books[0].rating);
+            console.log(data.books[1].rating);
+            const avgRating = totalRating / data.books.length;
+            setAverageRating(avgRating); // Mettre à jour la moyenne des notes
+          }
+        })
         .catch((error) => console.error('Error fetching author details:', error));
     }
   }, [id]);
@@ -46,51 +58,60 @@ const AuthorById = () => {
   const biography = author.biography ? author.biography : 'No biography available';
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>{firstName} {lastName}</h1>
-      {author.photo && (
-        <img
-          src={author.photo}
-          alt={`${firstName} ${lastName}`}
-          style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }}
-        />
-      )}
-      <p>Biography: {biography}</p>
-      <p>Books Written: {author.books ? author.books.length : 0}</p>
+    <div className={Styles.pageStyle}>
+
+      <Breadcrumbs aria-label="breadcrumb" sx={{ marginBottom: 2 , justifyContent :'flex-start' , display : 'flex'}}>
+        <Link to="/" color="inherit">Home</Link>
+        <Link to="/authors" color="inherit">
+        Authors
+        </Link>
+        <Link
+          to={`/authors/${id}`} // Navigation vers le détail du livre
+          color="inherit"
+        >
+          {author.first_name} {author.last_name}
+        </Link>
+      </Breadcrumbs>
+
+      <div className={Styles.infoBook}>
+        {author.photo ? (
+          <img className={Styles.cover}
+            src={author.photo}
+            alt={`${firstName} ${lastName}`}
+          />
+        ) : (
+          <div className={Styles.cover}>No photo available</div>
+        )}
+        <div className={Styles.authorInfo}>
+          <h1 className={Styles.title}>{firstName} {lastName}</h1>
+          <p>Biography: {biography}</p>
+          <p>Books Written: {author.books ? author.books.length : 0}</p>
+          {averageRating !== null && (
+            <p>Average Rating: {averageRating.toFixed(2)}</p> // Afficher la moyenne avec 2 décimales
+          )}
+          <button className={Styles.button}
+            onClick={handleDeleteAuthor}
+          >Delete</button>
+        </div>
+      </div>
       
-      <h2>Books:</h2>
+      <h2 className={Styles.bookTitle}>Books</h2>
       {author.books && author.books.length > 0 ? (
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px' }}>
+        <div className={Styles.booksContainer}>
           {author.books.map((book: Book) => (
             <BookCard
-              key={book.id}              // Utilisation de book.id comme key
               id={book.id}               // Passe l'id de book
               title={book.title}         // Passe le titre de book
               year_published={book.year_published} // Passe l'année de publication
               rating={book.rating}       // Passe la note
-              author={book.author ? book.author : { first_name: 'Unknown', last_name: 'Unknown' }} // Passe l'auteur de manière sécurisée
-              onClick={() => navigate(`/books/${book.id}`)} // Passe la fonction onClick
+              author={author} // Passe l'auteur de manière sécurisée
+              onClick={() => navigate(`/books/${book.id}` , { state: { fromAuthor: true, authorName: author.first_name, bookTitle: book.title } })} // Passe la fonction onClick
             />
           ))}
         </div>
       ) : (
-        <p>No books found for this author.</p>
+        <p>No books found for this author</p>
       )}
-      
-      <button
-        onClick={handleDeleteAuthor}
-        style={{
-          marginTop: '20px',
-          padding: '10px 20px',
-          backgroundColor: '#f44336',
-          color: 'white',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-        }}
-      >
-        Delete Author
-      </button>
     </div>
   );
 };

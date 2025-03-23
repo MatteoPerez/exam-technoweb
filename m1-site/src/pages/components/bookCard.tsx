@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./bookCard.module.css"
-import { Book , Author } from './types'
+import { Book } from './types'
 
 
 const BookCard: React.FC<Book> = ({ id, title, year_published, rating, author, onClick }) => {
@@ -16,7 +16,13 @@ const BookCard: React.FC<Book> = ({ id, title, year_published, rating, author, o
       <div className={styles.bookInfoZone}>
         <h3>{title}</h3>
         <div className={styles.bookDetails}>
-          <p>Author: {author.first_name} {author.last_name}</p>
+        {
+        author ? (
+          <p>{author.first_name} {author.last_name}</p>
+        ) : (
+          <p>Unknown Author</p>
+        )
+      }
           <p>Year: {year_published}</p>
           <p>Rating: {rating}</p>
         </div>

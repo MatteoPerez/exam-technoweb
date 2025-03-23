@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import BookCard from './components/bookCard'; // Assurez-vous que le chemin est correct
+import { Book, Author } from './components/types';
 
 const AuthorById = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [author, setAuthor] = useState<any | null>(null);
+  const [author, setAuthor] = useState<Author | null>(null);  // Typage d'Author avec un état initial null
 
   useEffect(() => {
     if (id) {
@@ -38,27 +40,43 @@ const AuthorById = () => {
     return <div>Loading...</div>;
   }
 
+  // Vérification de l'existence des propriétés avant de les utiliser
+  const firstName = author.first_name ? author.first_name : 'Unknown';
+  const lastName = author.last_name ? author.last_name : 'Unknown';
+  const biography = author.biography ? author.biography : 'No biography available';
+
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>
-        {author.first_name} {author.last_name}
-      </h1>
-      <p>Biography: {author.biography}</p>
-      <p>Books Written: {author.books ? author.books.length : 0}</p> {/* Display the number of books */}
-      {/* List of books by the author */}
+      <h1>{firstName} {lastName}</h1>
+      {author.photo && (
+        <img
+          src={author.photo}
+          alt={`${firstName} ${lastName}`}
+          style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }}
+        />
+      )}
+      <p>Biography: {biography}</p>
+      <p>Books Written: {author.books ? author.books.length : 0}</p>
+      
       <h2>Books:</h2>
       {author.books && author.books.length > 0 ? (
-        <ul>
-          {author.books.map((book: any) => (
-            <li key={book.id}>
-              <Link to={`/books/${book.id}`}>{book.title}</Link> {/* Link to the book page */}
-            </li>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px' }}>
+          {author.books.map((book: Book) => (
+            <BookCard
+              key={book.id}              // Utilisation de book.id comme key
+              id={book.id}               // Passe l'id de book
+              title={book.title}         // Passe le titre de book
+              year_published={book.year_published} // Passe l'année de publication
+              rating={book.rating}       // Passe la note
+              author={book.author ? book.author : { first_name: 'Unknown', last_name: 'Unknown' }} // Passe l'auteur de manière sécurisée
+              onClick={() => navigate(`/books/${book.id}`)} // Passe la fonction onClick
+            />
           ))}
-        </ul>
+        </div>
       ) : (
         <p>No books found for this author.</p>
       )}
-      {/* Delete button */}
+      
       <button
         onClick={handleDeleteAuthor}
         style={{

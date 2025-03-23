@@ -259,23 +259,30 @@ export class AppService {
     await this.ratingRepository.delete(id);
   }
 
-  //Methode de mise a jour d'un livre
   async updateBook(id: string, updateData: Partial<Book>): Promise<Book> {
-    const book = await this.bookRepository.findOne({ where: { id } });
+    const book = await this.bookRepository.findOne({ where: { id }, relations: ['author'] });
 
     if (!book) {
       throw new Error('Book not found');
     }
 
-    // Met à jour les champs du livre avec les nouvelles données
-    Object.assign(book, updateData);
+    // Vérifier si des informations d'auteur sont fournies et les mettre à jour séparément
+    if (updateData.author) {
+        if (!book.author) {
+            throw new Error("This book doesn't have an associated author");
+        }
+        book.author.first_name = updateData.author.first_name ?? book.author.first_name;
+        book.author.last_name = updateData.author.last_name ?? book.author.last_name;
+        await this.authorRepository.save(book.author); // Met à jour l'auteur
+        delete updateData.author; // Empêche l'écrasement plus tard
+    }
 
-    // Sauvegarde les changements dans la base de données
+    // Mettre à jour les autres champs du livre
+    Object.assign(book, updateData);
     await this.bookRepository.save(book);
 
     return book;
-  }
-
+}
 
   //Methode de mise a jour d'un auteur
   async updateAuthor(id: string, updateData: Partial<Author>): Promise<Author> {

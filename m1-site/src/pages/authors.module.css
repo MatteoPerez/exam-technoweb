@@ -1,0 +1,102 @@
+.authorPage {
+    font-family: 'Trebuchet MS', sans-serif;
+    padding-top: 10px;
+    padding-left: 80px;
+  }
+
+  .title{
+    text-align: left;
+    padding-left: 80px;
+    padding-top: 50px;
+    color: rgb(82, 78, 85);
+  }
+
+  .searchBar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .authorsContainer {
+    font-family: 'Trebuchet MS', sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .authorCard {
+    width: 200px;
+    height: 400px;
+    position: relative;
+    background-color: rgba(177, 27, 27, 0);
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .authorCard:hover {
+    transform: scale(1.05); /* Agrandir légèrement l'auteur */
+    z-index: 2; /* S'assurer que l'auteur au survol soit au-dessus des autres */
+  }
+  
+  .authorImage {
+    width: 100%;
+    height: 70%;
+    background-image: url('../../public/images/Author.svg'); /* Image en fond */
+    background-size: cover;
+    background-position: center;
+    opacity: 0.8;
+    left: 0;
+  }
+  
+  .authorCover {
+    height: 170px;
+    width: 130px;
+    display: flex;
+    top: 15px;
+    object-fit: cover;
+    margin-left: 55px;
+    position: relative;
+    background: rgba(206, 20, 153, 0);
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .authorPhoto{
+    top : 0px;
+    height: 170px;
+    position: relative;
+    object-fit: cover;
+    align-items: center;
+  }
+  
+  .authorInfoZone {
+    font-size: 9px;
+    font-family: 'Trebuchet MS', sans-serif;
+    position: absolute;
+    background: rgba(40, 244, 255, 0);
+    right: 10px;
+    left: 10px;
+    bottom: 5px;
+    top: 280px;
+    border-radius: 0px;
+    padding: 0px;
+    text-align: left;
+  }
+  
+  .author-info {
+    font-family: 'Trebuchet MS', sans-serif;
+    position: relative;
+    background: rgba(77, 36, 128, 0);
+    color: white;
+    padding: 10px;
+    font-size: 10px;
+  }
+  
+  .authorDetails {
+    color: rgb(72, 42, 121);
+  }

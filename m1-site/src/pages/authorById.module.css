@@ -1,0 +1,44 @@
+.cover{
+    background-color: aquamarine;
+    width: 600px;
+    height: 750px;
+    object-fit: cover;
+}
+
+.infoBook{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 20px;
+    padding-top: 60px;
+    display: flex; /* Active Flexbox */
+    gap: 100px; /* Espacement entre les éléments */
+    align-items: top; /* Alignement vertical au centre */
+}
+
+.title{
+    font-size: 30px;
+    text-align: left;
+    padding-top: 50px;
+    color: rgb(126, 123, 129);
+  }
+
+  .pageStyle{
+    padding-top: 10px;
+    padding-left: 80px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+  }
+
+  .bookLink{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+
+  .booksContainer {
+    margin-top: 30px;
+    font-family: 'Trebuchet MS', sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: left;
+    padding: 20px;
+  }
+  

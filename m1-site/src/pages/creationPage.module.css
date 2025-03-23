@@ -1,0 +1,52 @@
+.container {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    display: flex;
+    height: 940px; /* Pleine hauteur de la page */
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Section gauche (Book) */
+  .leftSection {
+    color: #8d8d8d;
+    flex: 1; /* Prend 50% de l'espace */
+    display: flex;
+    align-items: center;
+    justify-content: top;
+    height: 100%;
+    flex-direction: column;
+  }
+  
+  /* Ligne de séparation au milieu */
+  .separator {
+    width: 4px; /* Épaisseur de la ligne */
+    background-color: #8d8d8d; /* Couleur de la ligne */
+    border-radius: 8px;
+    height: 80%; /* Hauteur de la ligne */
+  }
+  
+  /* Section droite (Author) */
+  .rightSection {
+    color: #8d8d8d;
+    flex: 1; /* Prend 50% de l'espace */
+    display: flex;
+    align-items: center;
+    justify-content: top;
+    height: 100%;
+    flex-direction: column;
+  }
+  
+  .textField{
+    border-radius: 50px;
+    gap: 20px;
+    margin-top: 50px;
+    height: 600px;
+    width: 500px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+  }
+
+  .textField .MuiOutlinedInput-root {
+    border-radius: 50px;
+  }

@@ -31,7 +31,7 @@ const EditPage = () => {
       year_published: yearPublished,
     };
 
-    console.log('Updated Book:', updatedBook); // Log the updated book object
+    console.log('Request body:', JSON.stringify(updatedBook, null, 2));
 
     fetch(`http://localhost:3001/books/${id}`, {
       method: 'PUT',

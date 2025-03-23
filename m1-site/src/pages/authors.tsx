@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './authors.css';
+import { Breadcrumbs , Link } from '@mui/material';
+import styles from './authors.module.css'
 import SearchBar from './components/searchBar';
 
 export default function Authors() {
@@ -77,8 +78,20 @@ export default function Authors() {
   };
 
   return (
-    <div className="author-page" style={{ textAlign: 'center', marginTop: '50px' }}>
-      <SearchBar onSearch={handleAuthorSearch} />
+    <div className={styles.authorPage}>
+      
+      <Breadcrumbs aria-label="breadcrumb" sx={{ marginBottom: 2 }}>
+              <Link href="/" color="inherit">
+                Home
+              </Link>
+              <Link href="/authors" color="inherit">
+                Authors
+              </Link>
+      </Breadcrumbs>
+      
+      <div className={styles.searchBar}>
+        <SearchBar onSearch={handleAuthorSearch} />
+      </div>
 
       <h1 className="title">Authors</h1>
 
@@ -158,36 +171,28 @@ export default function Authors() {
         </div>
       )}
 
-      <div className="authors-container">
+      <div className={styles.authorsContainer}>
         {filteredAuthors.length === 0 ? (
           <p>No authors found.</p>
         ) : (
           filteredAuthors.map((author) => (
             <div
               key={author.id}
-              className="author-card"
+              className={styles.authorCard}
               onClick={() => handleAuthorClick(author.id)}
             >
-              <div className="author-image">
-                <div className="author-cover">
-                  <div className="author-picture">
+              <div className={styles.authorImage}> {/* Image en arrière-plan */}
+                <div className={styles.authorCover}>
                     {author.photo ? (
-                      <img
-                        className="author-photo"
-                        src={author.photo}
-                        alt={`${author.first_name} ${author.last_name}`}
-                      />
+                      <img className={styles.authorPhoto} src={author.photo} alt={`${author.first_name} ${author.last_name}`} />
                     ) : (
                       <p>No photo available</p>
                     )}
-                  </div>
                 </div>
               </div>
-              <div className="author-info-zone">
-                <h3>
-                  {author.first_name} {author.last_name}
-                </h3>
-                <div className="author-details">
+              <div className={styles.authorInfoZone}>
+                <h3>{author.first_name} {author.last_name}</h3>
+                <div className={styles.authorDetails}>
                   <p>Biography: {author.biography}</p>
                   <p>Books Written: {author.books ? author.books.length : 0}</p> {/* Display the number of books */}
                 </div>
